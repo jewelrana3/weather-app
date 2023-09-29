@@ -1,11 +1,14 @@
 const submit = document.getElementById('submit');
-submit.addEventListener('click', function () {
+submit.addEventListener('click', (e) =>{
+	e.preventDefault();
 	const input = document.getElementById('input').value;
+	
 	console.log(input)
 
 	fetch('https://api.openweathermap.org/data/2.5/weather?q='+input +'&appid=afaf1177005576508c30566b5b5ae1e2')
 		.then(res => res.json())
 		.then(res => {
+		
 			console.log(res)
 			const cityName = res.name;
 			const tem = res.main.temp;
@@ -15,12 +18,14 @@ submit.addEventListener('click', function () {
 			const cloud_pct = res.coord.lat;
 			const feels_likes = res.main.feels_like;
 			const humidity = res.weather[0].description;
-			const sunset = res.sys.parseFloat(sunset);
-			let sunrise = new Date(res.sys.sunset * 1000).toLocaleTimeString();;
+			const sunset = res.sys.sunset;
+			const sunrise = res.sys.sunrise;
 			const wind_degree = res.wind.deg;
+			const km = res.clouds.all;
+			const parsent = res.wind.speed;
 
 
-			document.getElementById('temp').innerText=temp.toFixed(2);
+			document.getElementById('temp').innerText=temp.toFixed();
 			document.getElementById('city').innerText=cityName;
 			document.getElementById('max').innerText=max;
 			document.getElementById('min').innerText=min;
@@ -28,13 +33,15 @@ submit.addEventListener('click', function () {
 			document.getElementById('cloud_pct').innerText=cloud_pct;
 			document.getElementById('feels_likes').innerText=feels_likes;
 			document.getElementById('humidity').innerText=humidity;
+			document.getElementById('km').innerText=km;
 
 			document.getElementById('sunset').innerText=sunset;
 			document.getElementById('sunrise').innerText=sunrise;
 			document.getElementById('wind_degree').innerText=wind_degree;
+			document.getElementById('parsent').innerText=parsent;
 
 		})
-		.catch(err => alert('Please Right City Name'))
+		.catch(err => console.log(err))
 	
 })
 
